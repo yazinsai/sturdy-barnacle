@@ -23,8 +23,9 @@ const getEntries = async (req: Request, res: Response) => {
 }
 
 const addEntry = async (req: Request, res: Response) => {
-  const { title, text} = req.body
+  const { title, text } = req.body
   try {
+    console.log('addEntry()')
     const entry = db.collection('entries').doc()
     const entryObject = {
       id: entry.id,
