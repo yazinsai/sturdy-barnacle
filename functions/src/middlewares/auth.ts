@@ -3,6 +3,12 @@ import * as express from 'express';
 
 // Good reference: https://dev.to/emeka/securing-your-express-node-js-api-with-firebase-auth-4b5f
 
+// You can apply this middleware to all routes using:
+// > app.use(validateWithToken)
+
+// or to individual routes using:
+// > app.post('/entries', validateWithToken, addEntry)
+
 const validateWithToken = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
   const error = (msg: string) => res.status(401).send({ error: msg })
 
