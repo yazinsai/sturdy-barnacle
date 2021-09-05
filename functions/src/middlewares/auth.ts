@@ -29,7 +29,7 @@ const validateWithToken = async (req: express.Request, res: express.Response, ne
     res.locals.authenticated = true
     return next()
   } catch(e) {
-    let message = `Unable to decode the provided token: "${token}"`
+    let message = `Unable to decode the provided token: "${token}". Code: "${e}"`
     switch(e) {
       case "auth/unverified-email":
         message = "You must verify your email address before using this token"
