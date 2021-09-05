@@ -9,10 +9,7 @@ require('dotenv').config()
 
 const app = express()
 app.use(validateWithToken) // require authentication on all routes
-app.get('/', (req, res) => res.status(200).send({ 
-  message: "You've successfully authenticated with the Amal API"
-}))
-
+app.get('/', (req, res) => res.status(200).send({ message: "👋" }))
 app.get('/users', getUsers)
 
 const onLaunch = async () => {
