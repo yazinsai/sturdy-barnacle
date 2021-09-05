@@ -22,21 +22,33 @@ const validateWithToken = async (req: express.Request, res: express.Response, ne
   // Validate the token
   try {
     const decoded = await verifyToken(token)
+    if(!decoded.email_verified) throw("auth/unverified-email")
+
     res.locals.userId = decoded.uid
     res.locals.email = decoded.email
     res.locals.authenticated = true
     return next()
   } catch(e) {
-    return error(`Unable to decode the provided token: "${token}"`)
+    let message = `Unable to decode the provided token: "${token}"`
+    switch(e) {
+      case "auth/unverified-email":
+        message = "You must verify your email address before using this token"
+        break
+      case "auth/id-token-expired":
+        message = "The token has expired. Please sign in, and try again"
+        break
+    }
+    
+    return error(message)
   }
 }
 
 const verifyToken = async (token: string): Promise<admin.auth.DecodedIdToken> => {
   try {
-    const {decodedToken} = await admin.auth().verifyIdToken(token)
-    return decodedToken
+    const decoded = await admin.auth().verifyIdToken(token)
+    return decoded
   } catch(error) {
-    throw error.message
+    throw error.errorInfo.code
   }
 }
 
