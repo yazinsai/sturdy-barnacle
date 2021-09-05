@@ -1,8 +1,9 @@
 import * as functions from "firebase-functions";
 import express from "express";
-import { addEntry, getEntries } from "./controllers/entry";
+import { initFirebase } from "./config/firebase";
+import { getUsers } from "./controllers/users";
 import { validateWithToken } from "./middlewares/auth";
-import { connectDb } from "./models";
+const db = require("./config/database");
 
 require('dotenv').config()
 
@@ -12,12 +13,12 @@ app.get('/', (req, res) => res.status(200).send({
   message: "You've successfully authenticated with the Amal API"
 }))
 
-app.post('/entries', addEntry)
-app.get('/entries', getEntries)
+app.get('/users', getUsers)
 
 const onLaunch = async () => {
-  await connectDb()
+  initFirebase()
+  await db.connect()
 }
 
-exports.app = functions.https.onRequest(app)
 onLaunch()
+exports.app = functions.https.onRequest(app)
