@@ -6,6 +6,8 @@ import { validateWithToken } from "./middlewares/auth";
 const db = require("./config/database");
 
 require('dotenv').config()
+const env:string = process.env.NODE_ENV || 'development';
+console.info(`Running in ${env} environment`)
 
 const app = express()
 app.use(validateWithToken) // require authentication on all routes
