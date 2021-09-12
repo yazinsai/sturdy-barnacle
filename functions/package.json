@@ -18,9 +18,11 @@
     "express": "^4.17.1",
     "firebase-admin": "^9.8.0",
     "firebase-functions": "^3.15.5",
+    "frisbee": "^3.1.4",
     "mongoose": "^6.0.4"
   },
   "devDependencies": {
+    "cabin": "^9.0.4",
     "firebase-functions-test": "^0.2.0",
     "typescript": "^3.8.0"
   },
