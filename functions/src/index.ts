@@ -6,8 +6,8 @@ import { initFirebase } from "./config/firebase";
 import { getUsers } from "./controllers/users";
 import { validateWithToken } from "./middlewares/auth";
 import { isProduction } from "./config/constants";
-const db = require("./config/database");
-const Cabin = require('cabin');
+import db from "./database";
+import Cabin from 'cabin';
 
 import { login } from "./lib/alpaca"
 
@@ -28,10 +28,9 @@ app.get('/accounts', async (req, res) => {
   return res.status(200).send({ accounts: accounts })
 })
 
-// Initialize
+// Setup
 initFirebase()
 db.connect()
 
-// Run
-exports.isProduction = isProduction
+// Have express handle our requests
 exports.app = functions.https.onRequest(app)

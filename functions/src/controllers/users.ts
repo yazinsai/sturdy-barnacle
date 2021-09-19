@@ -1,5 +1,5 @@
 import { Response } from "express"
-import { User } from "../models";
+import db from "../database"
 
 type UserType = {
   name: string,
@@ -11,21 +11,18 @@ type Request = {
   params: { userId: string }
 }
 
-const getUsers = async (req: Request, res: Response) => {
-  User.find({}, (error, users: any) => {
-    if(error) {
-      return res.status(500).json(error.message)
-    }
+interface User {
+  name: string;
+  email: string;
+}
 
-    const result:any[] = Array.from(users).map((user:any) => {
-      const obj = user.toJSON()
-      delete obj._id
-      
-      return obj
-    })
-    
-    return res.status(200).json(result)
-  })
+const getUsers = async (req: Request, res: Response) => {
+  const users = db.collection<User>('users')
+  const cursor = users.find({})
+
+  // convert cursor to array
+  const usersArray = await cursor.toArray()
+  return res.status(200).json(usersArray)
 }
 
 export { getUsers }
