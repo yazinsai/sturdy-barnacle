@@ -32,5 +32,14 @@ app.get('/accounts', async (req, res) => {
 initFirebase()
 db.connect()
 
+// Teardown
+const cleanup = (event) => {
+  db.disconnect()
+  console.log("✅ DB gracefully shutdown")
+  process.exit() // Exit with default success-code '0'.
+}
+process.on('SIGINT', cleanup);
+process.on('SIGTERM', cleanup);
+
 // Have express handle our requests
 exports.app = functions.https.onRequest(app)

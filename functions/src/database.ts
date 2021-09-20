@@ -19,6 +19,10 @@ class Database {
   collection<T>(name: string, options?: CollectionOptions) {
     return this.db.collection<T>(name, options)
   }
+
+  async disconnect() {
+    this.#client.close()
+  }
 }
 
 export default new Database()
