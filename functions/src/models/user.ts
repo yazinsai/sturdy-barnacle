@@ -5,6 +5,7 @@ enum KycStatus {
 }
 
 export interface User {
+  id: string;
   name: string;
   email: string;
   authMethod: string;
