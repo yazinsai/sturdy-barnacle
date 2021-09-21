@@ -8,4 +8,16 @@ const getPortfolios = async (req: any, res: Response) => {
   return res.status(200).json(portfoliosArray)
 }
 
-export { getPortfolios }
+const getPortfolioById = async (req: any, res: Response) => {
+  const id = req.params?.id?.toString()
+  if(!id || id.length == 0) return res.status(422).json({ error: 'Missing id' })
+
+  // Find the portfolio among the users' portfolios, or the public ones
+  // Include the portfolio's items in the response
+  const portfolio = await db.collection<Portfolio>('portfolios').findOne({ _id: id, userId: [null, req.locals.userId], $include: ['items'] })
+  if(!portfolio) return res.status(404).json({ error: 'Portfolio not found' })
+
+  return res.status(200).json(portfolio)
+}
+
+export { getPortfolios, getPortfolioById }

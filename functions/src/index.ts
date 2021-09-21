@@ -10,7 +10,7 @@ import Cabin from 'cabin';
 
 import { login } from "./lib/alpaca"
 import { getUsers } from "./controllers/users";
-import { getPortfolios } from "./controllers/portfolios";
+import { getPortfolioById, getPortfolios } from "./controllers/portfolios";
 
 console.info(`Running in ${isProduction ? 'production': 'dev'} environment`)
 
@@ -25,6 +25,7 @@ app.use(validateWithToken) // on all routes
 app.get('/', async (req, res) => res.status(200).send({ message: "👋" }))
 app.get('/users', getUsers)
 app.get('/portfolios', getPortfolios)
+app.get('/portfolios/:id', getPortfolioById)
 app.get('/accounts', async (req, res) => {
   const accounts = await login()
   return res.status(200).send({ accounts: accounts })
