@@ -2,6 +2,7 @@ require('dotenv').config()
 
 import * as functions from "firebase-functions";
 import express from "express";
+import paginate from "express-paginate";
 import { initFirebase } from "./config/firebase";
 import { validateWithToken } from "./middlewares/auth";
 import { isProduction } from "./config/constants";
@@ -22,6 +23,7 @@ app.use(cabin.middleware);
 
 // Routes
 app.use(validateWithToken) // on all routes
+app.use(paginate.middleware(20, 100)) // default page size is 20; max 100
 app.get('/', async (req, res) => res.status(200).send({ message: "👋" }))
 app.get('/users', getUsers)
 app.get('/portfolios', getPortfolios)
