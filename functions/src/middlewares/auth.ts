@@ -1,5 +1,7 @@
 import * as admin from "firebase-admin"
 import * as express from 'express';
+import database from "../database";
+import { User } from "../models/user";
 
 // Good reference: https://dev.to/emeka/securing-your-express-node-js-api-with-firebase-auth-4b5f
 
@@ -24,15 +26,23 @@ const validateWithToken = async (req: express.Request, res: express.Response, ne
     const decoded = await verifyToken(token)
     if(!decoded.email_verified) throw("auth/unverified-email")
 
-    res.locals.userId = decoded.uid
-    res.locals.email = decoded.email
+    // Lookup userId by the email address
+    const record = await database.collection<User>('users').findOne({ email: decoded.email, isActive: true })
+    if(record == null) throw("auth/user-not-found")
+
+    // Populate the details
     res.locals.authenticated = true
+    res.locals.userId = record._id
+    res.locals.email = decoded.email
     return next()
   } catch(e) {
     let message = `Unable to decode the provided token: "${token}". Code: "${e}"`
     switch(e) {
       case "auth/unverified-email":
         message = "You must verify your email address before using this token"
+        break
+      case "auth/user-not-found":
+        message = "Unable to find an active, registered user with this email"
         break
       case "auth/id-token-expired":
         message = "The token has expired. Please sign in, and try again"
