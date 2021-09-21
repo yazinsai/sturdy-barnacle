@@ -27,3 +27,7 @@ Then run the `debug` launch profile in VS Code (detailed instructions [here](htt
 ```sh
 firebase deploy --only functions
 ```
+
+## Open Questions
+
+- [ ] How do you setup a Singleton DB?

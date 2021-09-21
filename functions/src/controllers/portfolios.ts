@@ -19,6 +19,19 @@ const getPortfolios = async (req: any, res: Response) => {
   })
 }
 
+const createPortfolio = async (req: any, res: Response) => {
+  const portfolio = req.body as Portfolio
+  portfolio.userId = req.locals.userId // set the current user
+
+  await db.collection<Portfolio>('portfolios').insertOne(portfolio)
+  if(!portfolio._id) return res.status(422).json({ error: 'Could not create portfolio' })
+
+  return res.status(201).json({
+    object: 'portfolio',
+    ...portfolio
+  })
+}
+
 const getPortfolioById = async (req: any, res: Response) => {
   const id = req.params?.id?.toString()
   if(!id || id.length == 0) return res.status(422).json({ error: 'Missing id' })
@@ -32,4 +45,4 @@ const getPortfolioById = async (req: any, res: Response) => {
   return res.status(200).json(portfolio)
 }
 
-export { getPortfolios, getPortfolioById }
+export { getPortfolios, getPortfolioById, createPortfolio }

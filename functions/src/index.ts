@@ -10,7 +10,7 @@ import db from "./database";
 import Cabin from 'cabin';
 
 import { getUsers } from "./controllers/users";
-import { getPortfolioById, getPortfolios } from "./controllers/portfolios";
+import { createPortfolio, getPortfolioById, getPortfolios } from "./controllers/portfolios";
 
 console.info(`Running in ${isProduction ? 'production': 'dev'} environment`)
 
@@ -26,6 +26,7 @@ app.use(paginate.middleware(20, 100)) // default page size is 20; max 100
 app.get('/', async (req, res) => res.status(200).send({ message: "👋" }))
 app.get('/users', getUsers)
 app.get('/portfolios', getPortfolios)
+app.post('/portfolios', createPortfolio)
 app.get('/portfolios/:id', getPortfolioById)
 
 // Setup
