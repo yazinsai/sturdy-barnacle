@@ -5,7 +5,7 @@ enum PortfolioType {
 }
 
 export interface Portfolio {
-  id: string;
+  _id: string;
   title: string;
   userId: string;
   type: PortfolioType;
@@ -15,7 +15,6 @@ export interface Portfolio {
 
 // Fields we'd like to exclude from the response
 export const PortfolioShape = {
-  _id: 0,
   createdAt: 0,
   updatedAt: 0,
 }

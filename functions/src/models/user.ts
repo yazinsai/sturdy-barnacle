@@ -5,7 +5,7 @@ enum KycStatus {
 }
 
 export interface User {
-  id: string;
+  _id: string;
   name: string;
   email: string;
   authMethod: string;
@@ -19,7 +19,6 @@ export interface User {
 
 // Fields we'd like to exclude from the response
 export const UserShape = {
-  _id: 0,
   createdAt: 0,
   updatedAt: 0,
 }

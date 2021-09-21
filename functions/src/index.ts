@@ -11,7 +11,6 @@ import Cabin from 'cabin';
 import { login } from "./lib/alpaca"
 import { getUsers } from "./controllers/users";
 import { getPortfolios } from "./controllers/portfolios";
-import { seedData } from "./config/fixtures";
 
 console.info(`Running in ${isProduction ? 'production': 'dev'} environment`)
 
@@ -22,8 +21,8 @@ const cabin = new Cabin();
 app.use(cabin.middleware);
 
 // Routes
-if(isProduction) app.use(validateWithToken) // on all routes
-app.get('/', (req, res) => res.status(200).send({ message: "👋" }))
+app.use(validateWithToken) // on all routes
+app.get('/', async (req, res) => res.status(200).send({ message: "👋" }))
 app.get('/users', getUsers)
 app.get('/portfolios', getPortfolios)
 app.get('/accounts', async (req, res) => {
@@ -35,7 +34,6 @@ app.get('/accounts', async (req, res) => {
 const setup = async () => {
   initFirebase()
   await db.connect()
-  seedData()
 }
 
 // Teardown
