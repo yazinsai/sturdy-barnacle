@@ -23,7 +23,7 @@ app.use(validateWithToken) // on all routes
 app.use(paginate.middleware(20, 100)) // default page size is 20; max 100
 
 // Routes
-app.get('/', async (req, res) => res.status(200).send({ message: "👋" }))
+app.get('/', async (req, res) => res.status(200).send({ message: "I'm still alive" }))
 app.get('/users', getUsers)
 app.get('/portfolios', getPortfolios)
 app.post('/portfolios', createPortfolio)

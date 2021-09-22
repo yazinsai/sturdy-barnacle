@@ -71,6 +71,7 @@ ModelPortfolios: visible
 ModelPortfolios: order
 
 Slices: id
+Slices: portfolioId
 Slices: weightPc
 Slices: type
 Slices: listedAsset ➕
