@@ -34,10 +34,10 @@ const createPortfolio = async (req: any, res: Response) => {
 
 const getPortfolioById = async (req: any, res: Response) => {
   const id = req.params?.id?.toString()
-  if(!id || id.length == 0) return res.status(422).json({ error: 'Missing id' })
+  if(!id || id.length == 0) return res.status(422).json({ error: 'Missing portfolio id' })
 
   // Find the portfolio among the users' portfolios, or the public ones
-  // Include the portfolio's items in the response
+  // Include the portfolio's slices in the response
   const portfolio = await db.collection<Portfolio>('portfolios').findOne({ 
     _id: id, userId: [null, req.locals.userId], $include: ['items'] })
   if(!portfolio) return res.status(404).json({ error: 'Portfolio not found' })
