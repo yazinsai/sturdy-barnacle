@@ -1,10 +1,9 @@
 require('dotenv').config()
 
-import * as functions from "firebase-functions";
 import express from "express";
 import paginate from "express-paginate";
 import { initFirebase } from "./config/firebase";
-import { validateWithToken } from "./middlewares/auth";
+// import { validateWithToken } from "./middlewares/auth";
 import { isProduction } from "./config/constants";
 import db from "./database";
 import Cabin from 'cabin';
@@ -19,7 +18,7 @@ const cabin = new Cabin();
 
 // Middleware
 app.use(cabin.middleware); // logging
-app.use(validateWithToken) // on all routes
+// app.use(validateWithToken) // on all routes
 app.use(paginate.middleware(20, 100)) // default page size is 20; max 100
 
 // Routes
@@ -34,6 +33,7 @@ const setup = async () => {
   initFirebase()
   await db.connect()
 }
+setup()
 
 // Teardown
 const cleanup = (event) => {
@@ -45,5 +45,6 @@ process.on('SIGINT', cleanup);
 process.on('SIGTERM', cleanup);
 
 // Have express handle our requests
-setup()
-exports.app = functions.https.onRequest(app)
+app.listen(3000, () => {
+  console.log("✅ Express server listening on port 3000")
+})

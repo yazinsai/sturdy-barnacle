@@ -3,11 +3,7 @@
   "scripts": {
     "build": "tsc",
     "build:watch": "tsc -w",
-    "serve": "npm run build && firebase emulators:start --only functions",
-    "shell": "npm run build && firebase functions:shell",
-    "start": "npm run shell",
-    "deploy": "firebase deploy --only functions",
-    "logs": "firebase functions:log"
+    "serve": "npm run build && node lib/index.js"
   },
   "engines": {
     "node": "14"
@@ -26,6 +22,7 @@
     "cabin": "^9.0.4",
     "faker": "^5.5.3",
     "firebase-functions-test": "^0.2.0",
+    "ts-node": "^10.2.1",
     "typescript": "^3.8.0"
   },
   "private": true
